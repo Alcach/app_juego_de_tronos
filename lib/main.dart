@@ -77,6 +77,7 @@ class EstadoInicio extends State<PaginaPrincipal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 144, 183, 202),
       body: Column(children: [
         Text(TextoPers,
             style: const TextStyle(fontSize: 30, color: Colors.deepOrange)),

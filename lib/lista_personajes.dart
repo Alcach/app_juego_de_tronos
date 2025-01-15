@@ -128,7 +128,8 @@ class _ListaPersState extends State<ListaPers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: const Color.fromARGB(255, 189, 175, 248),
+      appBar: AppBar(title: Text("Lista de personajes")),
       body: Column(children: [
         Text(TextoPers,
             style: const TextStyle(fontSize: 30, color: Colors.deepOrange)),

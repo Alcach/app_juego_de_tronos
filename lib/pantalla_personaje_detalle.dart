@@ -18,6 +18,7 @@ class PantallaPersonajeDetalle extends StatefulWidget {
 }
 
 class _PantallaPersonajeDetalleState extends State<PantallaPersonajeDetalle> {
+  final ScrollController _scrollController = ScrollController();
   //String urlSacadoLista = widget.URL_OtraPantalla;
   @override
   void initState() {
@@ -39,28 +40,60 @@ class _PantallaPersonajeDetalleState extends State<PantallaPersonajeDetalle> {
       if (kDebugMode) {
         print(persDet);
       }
-      TextoPers =
-          "${persDet.nombre} \n ${persDet.genero} \n ${persDet.cultura} \n ${persDet.nacimiento} \n ${persDet.muerte} \n ${persDet.titulos} \n ${persDet.motes} \n ${persDet.padre} \n ${persDet.madre} \n ${persDet.conyuge} \n ${persDet.alianzas} \n ${persDet.libros} \n ${persDet.povbooks} \n ${persDet.seriestl} \n ${persDet.actor}";
+
+      void CrearTxt() {
+        if (persDet.genero.isNotEmpty) {
+          TextoPers += "\nGénero: ${persDet.genero}";
+        }
+        if (persDet.cultura.isNotEmpty) {
+          TextoPers += "\nCultura: ${persDet.cultura}";
+        }
+        if (persDet.nacimiento.isNotEmpty) {
+          TextoPers += "\nNacimiento: ${persDet.nacimiento}";
+        }
+        if (persDet.muerte.isNotEmpty) {
+          TextoPers += "\nMuerte: ${persDet.muerte}";
+        }
+        if (persDet.titulos.isNotEmpty) {
+          TextoPers += "\nTítulos: ${persDet.titulos}";
+        }
+        if (persDet.motes.isNotEmpty) {
+          TextoPers += "\nMotes: ${persDet.motes}";
+        }
+        if (persDet.padre.isNotEmpty) {
+          TextoPers += "\nPadre: ${persDet.padre}";
+        }
+        if (persDet.madre.isNotEmpty) {
+          TextoPers += "\nMadre: ${persDet.madre}";
+        }
+        if (persDet.conyuge.isNotEmpty) {
+          TextoPers += "\nCónyuge: ${persDet.conyuge}";
+        }
+        if (persDet.alianzas.isNotEmpty) {
+          TextoPers += "\nAlianzas: ${persDet.alianzas}";
+        }
+        if (persDet.libros.isNotEmpty) {
+          TextoPers += "\nLibros: ${persDet.libros}";
+        }
+        if (persDet.povbooks.isNotEmpty) {
+          TextoPers += "\nPov books: ${persDet.povbooks}";
+        }
+        if (persDet.seriestl.isNotEmpty) {
+          TextoPers += "\nAparición en series: ${persDet.seriestl}";
+        }
+        if (persDet.actor.isNotEmpty) {
+          TextoPers += "\nActor/es: ${persDet.actor}";
+        }
+      }
+      //funcion que dando el nombre y valor haga el texto
+
+      //intentar crear un diccionario
+
+      TextoPers = "Nombre: " + "${persDet.nombre}";
+      CrearTxt();
+      //TextoPers ="${persDet.nombre} \n ${persDet.genero} \n ${persDet.cultura} \n ${persDet.nacimiento} \n ${persDet.muerte} \n ${persDet.titulos} \n ${persDet.motes} \n ${persDet.padre} \n ${persDet.madre} \n ${persDet.conyuge} \n ${persDet.alianzas} \n ${persDet.libros} \n ${persDet.povbooks} \n ${persDet.seriestl} \n ${persDet.actor}";
     } else {
       TextoPers = "Error al Api";
-    }
-    if (kDebugMode) {
-      print("${persDet.nombre}1");
-      print("${persDet.genero}1");
-      print("${persDet.cultura}1");
-      print("${persDet.nacimiento}1");
-      print("${persDet.muerte}1");
-      print("${persDet.titulos}1");
-      print("${persDet.motes}1");
-      print("${persDet.padre}1");
-      print("${persDet.madre}1");
-      print("${persDet.conyuge}1");
-      print("${persDet.alianzas}1");
-      print("${persDet.motes}1");
-      print("${persDet.libros}1");
-      print("${persDet.povbooks}1");
-      print("${persDet.seriestl}1");
-      print("${persDet.actor}1");
     }
     setState(() {}); // Actualiza la Interfaz de Usuario
   }
@@ -76,12 +109,14 @@ class _PantallaPersonajeDetalleState extends State<PantallaPersonajeDetalle> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 130, 86, 167),
       body: Column(children: [
         Text(TextoPers,
-            style: const TextStyle(fontSize: 30, color: Colors.deepOrange)),
+            style: const TextStyle(
+                fontSize: 30, color: Color.fromARGB(255, 110, 66, 53))),
         TextButton(
             onPressed: hacerFavorito,
-            child: const Text("Añadir a favoritos(personaje detallado)"))
+            child: const Text("Añadir a favoritos(personaje detallado)")),
       ]),
     );
   }
