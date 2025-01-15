@@ -35,22 +35,36 @@ class PersonajeDet {
       required this.actor});
 
   factory PersonajeDet.fromJson(Map<String, dynamic> json) {
-    return PersonajeDet(
+    var Titulos = json['titles'];
+    List<String> listaTit = Titulos.cast<String>();
+    var Motes = json['aliases'];
+    List<String> listaMot = Motes.cast<String>();
+    var Alianzas = json['allegiances'];
+    List<String> listaAli = Alianzas.cast<String>();
+    var Libros = json['books'];
+    List<String> listaLibr = Libros.cast<String>();
+    var Povbuks = json['povBooks'];
+    List<String> LitaPov = Povbuks.cast<String>();
+    var SeriesTl = json['tvSeries'];
+    List<String> listaTv = SeriesTl.cast<String>();
+    var Actores = json['playedBy'];
+    List<String> listaActores = Actores.cast<String>();
+    return new PersonajeDet(
         url: json['url'],
         nombre: json['name'],
         genero: json['gender'],
         cultura: json['culture'],
         nacimiento: json['born'],
         muerte: json['died'],
-        titulos: json['titles'],
-        motes: json['aliases'],
+        titulos: listaTit,
+        motes: listaMot,
         padre: json['father'],
         madre: json['mother'],
         conyuge: json['spouse'],
-        alianzas: json['allegiances'],
-        libros: json['books'],
-        povbooks: json['povBooks'],
-        seriestl: json['tvSeries'],
-        actor: json['playedBy']);
+        alianzas: listaAli,
+        libros: listaLibr,
+        povbooks: LitaPov,
+        seriestl: listaTv,
+        actor: listaActores);
   }
 }

@@ -114,8 +114,15 @@ class _ListaPersState extends State<ListaPers> {
 
   void hacerFavorito() {}
   void MostrarPersonajeDetalle(String url) {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const PantallaPersonajeDetalle()));
+    if (kDebugMode) {
+      //La url del personaje al que se le haga click es correcta
+      print("$url");
+      //URL_OtraPantalla: url
+    }
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      return new PantallaPersonajeDetalle(url);
+    }));
   }
 
   @override

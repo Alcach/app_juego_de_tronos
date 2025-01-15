@@ -8,8 +8,9 @@ import 'package:http/http.dart' as http;
 //https://medium.com/flutter-community/parsing-complex-json-in-flutter-747c46655f51
 
 class PantallaPersonajeDetalle extends StatefulWidget {
-  //final String URL;, required this.URL
-  const PantallaPersonajeDetalle({super.key});
+  String URL_OtraPantalla;
+  PantallaPersonajeDetalle(this.URL_OtraPantalla);
+  //const PantallaPersonajeDetalle({super.key, required this.URL_OtraPantalla});
 
   @override
   State<PantallaPersonajeDetalle> createState() =>
@@ -17,8 +18,7 @@ class PantallaPersonajeDetalle extends StatefulWidget {
 }
 
 class _PantallaPersonajeDetalleState extends State<PantallaPersonajeDetalle> {
-  String textoChiste = "";
-
+  //String urlSacadoLista = widget.URL_OtraPantalla;
   @override
   void initState() {
     UsarApi();
@@ -28,22 +28,39 @@ class _PantallaPersonajeDetalleState extends State<PantallaPersonajeDetalle> {
   String TextoPers = "";
   late int numeropers;
   late PersonajeDet persDet;
+
   void UsarApi() async {
-    final url = Uri.parse("https://anapioficeandfire.com/api/characters/583");
+    //https://anapioficeandfire.com/api/characters/583 widget.URL_OtraPantalla
+    final url = Uri.parse(widget.URL_OtraPantalla);
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final json = response.body;
-      if (kDebugMode) {
-        print(json);
-      }
       persDet = PersonajeDet.fromJson(jsonDecode(json));
+      if (kDebugMode) {
+        print(persDet);
+      }
       TextoPers =
           "${persDet.nombre} \n ${persDet.genero} \n ${persDet.cultura} \n ${persDet.nacimiento} \n ${persDet.muerte} \n ${persDet.titulos} \n ${persDet.motes} \n ${persDet.padre} \n ${persDet.madre} \n ${persDet.conyuge} \n ${persDet.alianzas} \n ${persDet.libros} \n ${persDet.povbooks} \n ${persDet.seriestl} \n ${persDet.actor}";
     } else {
       TextoPers = "Error al Api";
     }
     if (kDebugMode) {
-      print(TextoPers);
+      print("${persDet.nombre}1");
+      print("${persDet.genero}1");
+      print("${persDet.cultura}1");
+      print("${persDet.nacimiento}1");
+      print("${persDet.muerte}1");
+      print("${persDet.titulos}1");
+      print("${persDet.motes}1");
+      print("${persDet.padre}1");
+      print("${persDet.madre}1");
+      print("${persDet.conyuge}1");
+      print("${persDet.alianzas}1");
+      print("${persDet.motes}1");
+      print("${persDet.libros}1");
+      print("${persDet.povbooks}1");
+      print("${persDet.seriestl}1");
+      print("${persDet.actor}1");
     }
     setState(() {}); // Actualiza la Interfaz de Usuario
   }
