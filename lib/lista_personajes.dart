@@ -129,7 +129,9 @@ class _ListaPersState extends State<ListaPers> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 189, 175, 248),
-      appBar: AppBar(title: Text("Lista de personajes")),
+      appBar: AppBar(
+          title: Text("Lista de personajes"),
+          backgroundColor: const Color.fromARGB(255, 98, 160, 155)),
       body: Column(children: [
         Text(TextoPers,
             style: const TextStyle(fontSize: 30, color: Colors.deepOrange)),
@@ -157,15 +159,3 @@ class _ListaPersState extends State<ListaPers> {
     );
   }
 }
-
-/*
- // Cuando presiona el botón
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DetailScreen(datos: "El valor que quieres pasar"),
-          ),
-        );
-      },
-*/
