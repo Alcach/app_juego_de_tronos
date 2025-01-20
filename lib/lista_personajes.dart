@@ -123,12 +123,24 @@ class _ListaPersState extends State<ListaPers> {
     }));
     */
   }
+  void Ultima() {
+    VaciarLista();
+    numpagina = 43;
+    crearPers();
+  }
+
   void AvanzarPag() {
     VaciarLista();
     if (numpagina <= 42) {
       numpagina += 1;
       crearPers();
     }
+  }
+
+  void Primera() {
+    VaciarLista();
+    numpagina = 1;
+    crearPers();
   }
 
   void RetrocederPag() {
@@ -181,9 +193,13 @@ class _ListaPersState extends State<ListaPers> {
                     child: Text(Personajes[index])));
           },
         )),
-        TextButton(onPressed: RetrocederPag, child: const Text("Anterior")),
-        Text("Numero de página:$numpagina"),
-        TextButton(onPressed: AvanzarPag, child: const Text("Siguiente")),
+        Row(mainAxisSize: MainAxisSize.min, children: [
+          TextButton(onPressed: Primera, child: const Text("Ir a la primera")),
+          TextButton(onPressed: RetrocederPag, child: const Text("Anterior")),
+          Text("Numero de página:$numpagina"),
+          TextButton(onPressed: AvanzarPag, child: const Text("Siguiente")),
+          TextButton(onPressed: Ultima, child: const Text("Ir a la última"))
+        ]),
       ]),
     );
   }

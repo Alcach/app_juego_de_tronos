@@ -131,14 +131,11 @@ class _ListaPersFavoritosState extends State<ListaPersFavoritos> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 189, 175, 248),
       appBar: AppBar(
-          title: Text("Lista de personajes"),
+          title: Text("Lista de personajes Favoritos"),
           backgroundColor: const Color.fromARGB(255, 98, 160, 155)),
       body: Column(children: [
         Text(TextoPers,
             style: const TextStyle(fontSize: 30, color: Colors.deepOrange)),
-        TextButton(
-            onPressed: hacerFavorito,
-            child: const Text("Ver Lista favoritos(por hacer)")),
         Expanded(
             child: ListView.builder(
           //Buscar como meter scrollview
