@@ -1,6 +1,7 @@
 import 'dart:convert';
-
+import 'package:app_juego_de_tronos/ListaPersonajesFavoritos.dart';
 import 'package:app_juego_de_tronos/pantalla_personaje_detalle.dart';
+import 'package:app_juego_de_tronos/pantallalistafavoritos.dart';
 import 'package:app_juego_de_tronos/personaje.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -51,8 +52,9 @@ class _ListaPersState extends State<ListaPers> {
     super.initState();
   }
 
-  void mostrarLista() {
-    //late PersonajeLista lista;
+  void VaciarLista() {
+    Personajes.removeRange(0, Personajes.length);
+    PersonajesURL.removeRange(0, PersonajesURL.length);
   }
 
   //ahora mismo no hace nada, solo el print
@@ -112,7 +114,31 @@ class _ListaPersState extends State<ListaPers> {
     UsarApi();
   }
 
-  void hacerFavorito() {}
+  void hacerFavorito() {
+    /*String url
+//https://www.youtube.com/watch?v=FgJnLdq_Ybo
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      return new ListaPersFavoritos(url);
+    }));
+    */
+  }
+  void AvanzarPag() {
+    VaciarLista();
+    if (numpagina <= 42) {
+      numpagina += 1;
+      crearPers();
+    }
+  }
+
+  void RetrocederPag() {
+    VaciarLista();
+    if (numpagina >= 2) {
+      numpagina -= 1;
+      crearPers();
+    }
+  }
+
   void MostrarPersonajeDetalle(String url) {
     if (kDebugMode) {
       //La url del personaje al que se le haga click es correcta
@@ -154,7 +180,10 @@ class _ListaPersState extends State<ListaPers> {
                     },
                     child: Text(Personajes[index])));
           },
-        ))
+        )),
+        TextButton(onPressed: RetrocederPag, child: const Text("Anterior")),
+        Text("Numero de página:$numpagina"),
+        TextButton(onPressed: AvanzarPag, child: const Text("Siguiente")),
       ]),
     );
   }

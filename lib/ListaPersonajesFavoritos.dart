@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
+//import 'dart:convert';
 
+//https://stackoverflow.com/questions/60470918/data-persistence-how-to-persist-list-of-data
 class Listapersonajesfavoritos {
   var urls = <String>[];
 
@@ -16,4 +18,10 @@ class Listapersonajesfavoritos {
       print("La lista(a la que se han quitado datos) es: " + urls.toString());
     }
   }
+  /*
+  Future<void> saveSetting(Listapersonajesfavoritos listaFav) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('favoritos', jsonEncode(listaFav.toJson()));
+  }
+  */
 }
