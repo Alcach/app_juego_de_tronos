@@ -4,6 +4,7 @@ import 'package:app_juego_de_tronos/personaje_detallado.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 //https://medium.com/flutter-community/parsing-complex-json-in-flutter-747c46655f51
 
@@ -20,10 +21,27 @@ class PantallaPersonajeDetalle extends StatefulWidget {
 
 class _PantallaPersonajeDetalleState extends State<PantallaPersonajeDetalle> {
   bool Esfavorito = false;
+
+  void mirarFav() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool('EsFavorito') != null) {
+      if (prefs.getStringList('favoritos')!.contains(widget.URL_OtraPantalla)) {
+        Esfavorito = prefs.getBool('EsFavorito')!;
+      } else {
+        Esfavorito = false;
+      }
+    }
+
+    if (kDebugMode) {
+      prefs.getBool('EsFavorito');
+    }
+  }
+
   //String urlSacadoLista = widget.URL_OtraPantalla;
   @override
   void initState() {
     UsarApi();
+    mirarFav();
     super.initState();
   }
 
@@ -149,14 +167,24 @@ class _PantallaPersonajeDetalleState extends State<PantallaPersonajeDetalle> {
     setState(() {}); // Actualiza la Interfaz de Usuario
   }
 
-  void hacerFavorito() {
+  Future<void> saveSetting(bool esmifavor) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('EsFavorito', esmifavor);
+    if (kDebugMode) {
+      print(prefs.getBool('EsFavorito').toString());
+    }
+  }
+
+  void hacerFavoritoSwitch() {
     String urlAInsertar = widget.URL_OtraPantalla;
     if (Esfavorito == true) {
       //Lo añade a la lista de favoritos
       Listapersonajesfavoritos().meterEnLista(urlAInsertar);
+      saveSetting(Esfavorito);
       //Listapersonajesfavoritos().saveSetting("favoritos",urlAInsertar);
     } else {
       //lo saca de la lista de favoritos
+      saveSetting(Esfavorito);
       Listapersonajesfavoritos().sacarDeLista(urlAInsertar);
     }
   }
@@ -173,13 +201,16 @@ class _PantallaPersonajeDetalleState extends State<PantallaPersonajeDetalle> {
         Text(TextoPers,
             style: const TextStyle(
                 fontSize: 30, color: Color.fromARGB(255, 110, 66, 53))),
-        TextButton(
-            onPressed: hacerFavorito, child: const Text("Añadir a favoritos")),
+        Text(
+          "Añadir a favoritos",
+          style:
+              TextStyle(fontSize: 30, color: Color.fromARGB(255, 221, 64, 16)),
+        ),
         Switch(
           value: Esfavorito,
           onChanged: (value) => setState(() {
             Esfavorito = value;
-            hacerFavorito();
+            hacerFavoritoSwitch();
           }),
         )
       ])),
