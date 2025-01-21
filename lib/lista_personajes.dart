@@ -152,8 +152,7 @@ class _ListaPersState extends State<ListaPers> {
         Text(TextoPers,
             style: const TextStyle(fontSize: 30, color: Colors.deepOrange)),
         TextButton(
-            onPressed: hacerFavorito,
-            child: const Text("Ver Lista favoritos(por hacer)")),
+            onPressed: hacerFavorito, child: const Text("Ver Lista favoritos")),
         Expanded(
             child: ListView.builder(
           //Buscar como meter scrollview

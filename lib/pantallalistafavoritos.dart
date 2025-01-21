@@ -36,17 +36,10 @@ class _ListaPersFavoritosState extends State<ListaPersFavoritos> {
   String TextoPers = "";
   //variable para buclar
   //int i = 1;
-  int numpagina = 1;
   @override
   //num personajes total api 2134
   //El numero de paginas maximo es 43
   void initState() {
-    /*
-    do {
-      crearPers(i);
-    } while (Personajes.length <= 5);
-*/
-
     crearPers();
 
     super.initState();
@@ -73,43 +66,20 @@ class _ListaPersFavoritosState extends State<ListaPersFavoritos> {
           final response = await http.get(url);
           if (response.statusCode == 200) {
             final json = response.body;
-            //superlista = ListaPersonajesFav.fromJson(jsonDecode(json));
-
             if (kDebugMode) {
-              print(json);
+              print("textoejemplo$json");
             }
+            pers = Personaje.fromJson(jsonDecode(json));
+
+            Personajes.add(pers.nombre);
+            PersonajesURL.add(pers.url);
+
+            setState(() {}); // Actualiza la Interfaz de Usuario
           }
         }
-        /*
-        
-        for (var UrlDeLista in PersonajesURL2) {
-          final url = Uri.parse("$UrlDeLista");
-          final response = await http.get(url);
-          if (response.statusCode == 200) {
-            final json = response.body;
-            superlista = ListaPersonajesFav.fromJson(jsonDecode(json));
-
-            if (kDebugMode) {
-              print(json);
-            }
-          }
-          //el bucle for enseña correctamente los datos
-          for (pers in superlista.listadelaspersonas) {
-            if (kDebugMode) {
-              //el 1 es para ver cuantos van sin nombre
-              print("${pers.nombre}1");
-            }
-            if (pers.nombre.isNotEmpty) {
-              Personajes.add(pers.nombre);
-              PersonajesURL.add(pers.url);
-            }
-          }
-          setState(() {}); // Actualiza la Interfaz de Usuario
-        }
-        */
       } else {
         if (kDebugMode) {
-          print("a");
+          print("No has añadido ningún personaje a la lista de favoritos");
         }
       }
     }
