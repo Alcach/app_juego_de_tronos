@@ -87,27 +87,6 @@ class _ListaPersState extends State<ListaPers> {
           PersonajesURL.add(pers.url);
         }
       }
-      /*
-      //Esta parte del codigo lo que hacia es coger los personajes del json y si tenian nombre los añadian a la buildlist
-      //pers = Personaje.fromJson(superlista.listadelaspersonas);
-        
-        List<dynamic> parsedListJson = jsonDecode(json);
-        List<Personaje> itemsList = List<Personaje>.from(parsedListJson.map<Personaje>((dynamic i) => Personaje.fromJson(i)));
-        //pers = Personaje.fromJson(jsonDecode(json));
-        //si el personaje sacado no tiene nombre
-        return new Personaje(
-        nombre: json['name'],
-        genero: json['gender'],
-        items: itemsList);
-
-        if (pers.nombre.isNotEmpty && Personajes.length <= 5) {
-          TextoPers = "${pers.nombre} \n ${pers.genero}";
-          Personajes.add(pers.nombre);
-        }
-      } else {
-        TextoPers = "Error al Api";
-      }
-*/
       setState(() {}); // Actualiza la Interfaz de Usuario
     }
 
@@ -115,14 +94,13 @@ class _ListaPersState extends State<ListaPers> {
   }
 
   void hacerFavorito() {
-    /*String url
 //https://www.youtube.com/watch?v=FgJnLdq_Ybo
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
-      return new ListaPersFavoritos(url);
+      return new ListaPersFavoritos();
     }));
-    */
   }
+
   void Ultima() {
     VaciarLista();
     numpagina = 43;

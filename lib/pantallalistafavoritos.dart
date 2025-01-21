@@ -1,32 +1,31 @@
 import 'dart:convert';
-
+import 'package:app_juego_de_tronos/ListaPersonajesFavoritos.dart';
 import 'package:app_juego_de_tronos/pantalla_personaje_detalle.dart';
 import 'package:app_juego_de_tronos/personaje.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ListaPersFavoritos extends StatefulWidget {
-  var URL_OtraPantalla = <String>[];
-  ListaPersFavoritos(this.URL_OtraPantalla);
-  //const ListaPersFavoritos({super.key});
+  const ListaPersFavoritos({super.key});
 
   @override
   State<ListaPersFavoritos> createState() => _ListaPersFavoritosState();
 }
 
 //clase de lista de personas de la api
-class ListaPersonajesFav {
+class ListaPersonajesFavor {
   final List<Personaje> listadelaspersonas;
 
-  const ListaPersonajesFav({
+  const ListaPersonajesFavor({
     required this.listadelaspersonas,
   });
 
-  factory ListaPersonajesFav.fromJson(List<dynamic> json) {
+  factory ListaPersonajesFavor.fromJson(List<dynamic> json) {
     List<Personaje> listadopersonas;
     listadopersonas = json.map((i) => Personaje.fromJson(i)).toList();
-    return ListaPersonajesFav(listadelaspersonas: listadopersonas);
+    return ListaPersonajesFavor(listadelaspersonas: listadopersonas);
   }
 }
 
@@ -60,54 +59,59 @@ class _ListaPersFavoritosState extends State<ListaPersFavoritos> {
   //ahora mismo no hace nada, solo el print
   void crearPers() {
     //late int numeropers;
-    late ListaPersonajesFav superlista;
+    late ListaPersonajesFavor superlista;
     late Personaje pers;
     void UsarApi() async {
-      final url = Uri.parse(widget.URL_OtraPantalla[1]);
-      final response = await http.get(url);
-      if (response.statusCode == 200) {
-        final json = response.body;
-        superlista = ListaPersonajesFav.fromJson(jsonDecode(json));
-        /*
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      if (prefs.getStringList('favoritos') != null) {
+        List<String> PersonajesURL2 = prefs.getStringList('favoritos')!;
         if (kDebugMode) {
-          print(json);
-          print(superlista.listadelaspersonas);
+          print(PersonajesURL2.toString());
+        }
+        for (var UrlDeLista in PersonajesURL2) {
+          final url = Uri.parse(UrlDeLista);
+          final response = await http.get(url);
+          if (response.statusCode == 200) {
+            final json = response.body;
+            //superlista = ListaPersonajesFav.fromJson(jsonDecode(json));
+
+            if (kDebugMode) {
+              print(json);
+            }
+          }
+        }
+        /*
+        
+        for (var UrlDeLista in PersonajesURL2) {
+          final url = Uri.parse("$UrlDeLista");
+          final response = await http.get(url);
+          if (response.statusCode == 200) {
+            final json = response.body;
+            superlista = ListaPersonajesFav.fromJson(jsonDecode(json));
+
+            if (kDebugMode) {
+              print(json);
+            }
+          }
+          //el bucle for enseña correctamente los datos
+          for (pers in superlista.listadelaspersonas) {
+            if (kDebugMode) {
+              //el 1 es para ver cuantos van sin nombre
+              print("${pers.nombre}1");
+            }
+            if (pers.nombre.isNotEmpty) {
+              Personajes.add(pers.nombre);
+              PersonajesURL.add(pers.url);
+            }
+          }
+          setState(() {}); // Actualiza la Interfaz de Usuario
         }
         */
-      }
-      //el bucle for enseña correctamente los datos
-      for (pers in superlista.listadelaspersonas) {
-        if (kDebugMode) {
-          //el 1 es para ver cuantos van sin nombre
-          print("${pers.nombre}1");
-        }
-        if (pers.nombre.isNotEmpty) {
-          Personajes.add(pers.nombre);
-          PersonajesURL.add(pers.url);
-        }
-      }
-      /*
-      //Esta parte del codigo lo que hacia es coger los personajes del json y si tenian nombre los añadian a la buildlist
-      //pers = Personaje.fromJson(superlista.listadelaspersonas);
-        
-        List<dynamic> parsedListJson = jsonDecode(json);
-        List<Personaje> itemsList = List<Personaje>.from(parsedListJson.map<Personaje>((dynamic i) => Personaje.fromJson(i)));
-        //pers = Personaje.fromJson(jsonDecode(json));
-        //si el personaje sacado no tiene nombre
-        return new Personaje(
-        nombre: json['name'],
-        genero: json['gender'],
-        items: itemsList);
-
-        if (pers.nombre.isNotEmpty && Personajes.length <= 5) {
-          TextoPers = "${pers.nombre} \n ${pers.genero}";
-          Personajes.add(pers.nombre);
-        }
       } else {
-        TextoPers = "Error al Api";
+        if (kDebugMode) {
+          print("a");
+        }
       }
-*/
-      setState(() {}); // Actualiza la Interfaz de Usuario
     }
 
     UsarApi();

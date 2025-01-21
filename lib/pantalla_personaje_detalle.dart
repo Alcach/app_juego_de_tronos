@@ -154,6 +154,7 @@ class _PantallaPersonajeDetalleState extends State<PantallaPersonajeDetalle> {
     if (Esfavorito == true) {
       //Lo añade a la lista de favoritos
       Listapersonajesfavoritos().meterEnLista(urlAInsertar);
+      //Listapersonajesfavoritos().saveSetting("favoritos",urlAInsertar);
     } else {
       //lo saca de la lista de favoritos
       Listapersonajesfavoritos().sacarDeLista(urlAInsertar);
@@ -172,7 +173,8 @@ class _PantallaPersonajeDetalleState extends State<PantallaPersonajeDetalle> {
         Text(TextoPers,
             style: const TextStyle(
                 fontSize: 30, color: Color.fromARGB(255, 110, 66, 53))),
-        //TextButton(onPressed: hacerFavorito, child: const Text("Añadir a favoritos")),
+        TextButton(
+            onPressed: hacerFavorito, child: const Text("Añadir a favoritos")),
         Switch(
           value: Esfavorito,
           onChanged: (value) => setState(() {
