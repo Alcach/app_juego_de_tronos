@@ -9,40 +9,59 @@ class Listapersonajesfavoritos {
 
   Future<void> meterEnLista(String urlAMeter) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Si al menos se han metido datos en sharedpreferences
     if (prefs.getStringList('favoritos') != null) {
+      //Metemos todos los valores de sharedpreferences en la lista
       urls = prefs.getStringList('favoritos')!;
+      //Metemos la nueva url
       urls.add(urlAMeter);
+      //Print para ver los datos
       if (kDebugMode) {
         print("La lista(después de que se ha añadido datos) es: $urls");
       }
+      //Guardamos la lista en sharedpreferences
       saveSetting(urls);
-    } else {
+    }
+    //Si no hay datos en sharedpreferences
+    else {
+      //Metemos la nueva url
       urls.add(urlAMeter);
+      //Print para ver los datos
       if (kDebugMode) {
         print("La lista(después de que se ha añadido datos) es: $urls");
       }
+      //Guardamos la lista en sharedpreferences
       saveSetting(urls);
     }
   }
 
   Future<void> sacarDeLista(String urlASacar) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Si al menos se han metido datos en sharedpreferences
     if (prefs.getStringList('favoritos') != null) {
+      //Metemos todos los valores de sharedpreferences en la lista
       urls = prefs.getStringList('favoritos')!;
-      urls.removeWhere((test) => test == urlASacar);
+      //Buscamos el url "x" en la lista y lo sacamos
+      urls.removeWhere((Url) => Url == urlASacar);
       if (kDebugMode) {
         print("La lista(después de que se han quitado datos) es: $urls");
       }
+      //Guardamos la lista en sharedpreferences
       saveSetting(urls);
-    } else {
-      urls.removeWhere((test) => test == urlASacar);
+    }
+    //Si no hay datos en sharedpreferences
+    else {
+      //Buscamos el url "x" en la lista y lo sacamos
+      urls.removeWhere((Url) => Url == urlASacar);
       if (kDebugMode) {
         print("La lista(después de que se han quitado datos) es: $urls");
       }
+      //Guardamos la lista en sharedpreferences
       saveSetting(urls);
     }
   }
 
+//Funcion que guarda la lista de urls(Para luego buscar en la api)
   Future<void> saveSetting(List<String> listaFav) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('favoritos', listaFav);

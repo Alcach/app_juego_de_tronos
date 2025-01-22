@@ -12,7 +12,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PantallaPersonajeDetalle extends StatefulWidget {
   String URL_OtraPantalla;
   PantallaPersonajeDetalle(this.URL_OtraPantalla, {super.key});
-  //const PantallaPersonajeDetalle({super.key, required this.URL_OtraPantalla});
 
   @override
   State<PantallaPersonajeDetalle> createState() =>
@@ -20,24 +19,29 @@ class PantallaPersonajeDetalle extends StatefulWidget {
 }
 
 class _PantallaPersonajeDetalleState extends State<PantallaPersonajeDetalle> {
+  //Un bool para ver si el personaje
   bool Esfavorito = false;
-
+//esta funcion revisará si anteriormente le has dado a que este personaje sea favorito
   void mirarFav() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    //si en algun momento has pulsado el botón(aunque luego lo hayas sacado)
     if (prefs.getBool('EsFavorito') != null) {
+      //Revisará si el personaje especifico que estas mirando esta en la lista de favoritos
       if (prefs.getStringList('favoritos')!.contains(widget.URL_OtraPantalla)) {
+        //si si esta en la lista le asignará el valor correspondiente
         Esfavorito = prefs.getBool('EsFavorito')!;
-      } else {
+      }
+      //si no esta en la lista se le asigna el valor por defecto false
+      else {
         Esfavorito = false;
       }
     }
-
+//un print para ver el valor
     if (kDebugMode) {
       prefs.getBool('EsFavorito');
     }
   }
 
-  //String urlSacadoLista = widget.URL_OtraPantalla;
   @override
   void initState() {
     UsarApi();
@@ -46,21 +50,17 @@ class _PantallaPersonajeDetalleState extends State<PantallaPersonajeDetalle> {
   }
 
   String TextoPers = "";
-  late int numeropers;
+
   late PersonajeDet persDet;
 
   void UsarApi() async {
-    //https://anapioficeandfire.com/api/characters/583 widget.URL_OtraPantalla
+//usamos el url de la lista de personajes
     final url = Uri.parse(widget.URL_OtraPantalla);
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final json = response.body;
       persDet = PersonajeDet.fromJson(jsonDecode(json));
-      /*
-      if (kDebugMode) {
-        print(persDet);
-      }
-*/
+//Vamos añadiendo valores al texto en función de si tienen esos valores o no
       void CrearTxt() {
         if (persDet.genero.isNotEmpty) {
           TextoPers += "\nGénero: ${persDet.genero}";
@@ -105,7 +105,7 @@ class _PantallaPersonajeDetalleState extends State<PantallaPersonajeDetalle> {
           TextoPers += "\nActor/es: ${persDet.actor}";
         }
       }
-      //funcion que dando el nombre y valor haga el texto
+      //funcion que dando el nombre("genero") y valor("Male") haga el texto
 
       //intentar crear un diccionario
       /*
@@ -158,15 +158,17 @@ class _PantallaPersonajeDetalleState extends State<PantallaPersonajeDetalle> {
         ]
       }
       */
+      //El nombre no hace falta revisar si esta vacío porque eso ya lo ha hecho el filtro de la pantalla de lista de personajes
       TextoPers = "Nombre: " + "${persDet.nombre}";
+      //revisamos valores
       CrearTxt();
-      //TextoPers ="${persDet.nombre} \n ${persDet.genero} \n ${persDet.cultura} \n ${persDet.nacimiento} \n ${persDet.muerte} \n ${persDet.titulos} \n ${persDet.motes} \n ${persDet.padre} \n ${persDet.madre} \n ${persDet.conyuge} \n ${persDet.alianzas} \n ${persDet.libros} \n ${persDet.povbooks} \n ${persDet.seriestl} \n ${persDet.actor}";
     } else {
       TextoPers = "Error al Api";
     }
     setState(() {}); // Actualiza la Interfaz de Usuario
   }
 
+//Ponemos el valor del switch en el shared preferences
   Future<void> saveSetting(bool esmifavor) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('EsFavorito', esmifavor);
@@ -175,13 +177,13 @@ class _PantallaPersonajeDetalleState extends State<PantallaPersonajeDetalle> {
     }
   }
 
+//Metemos/sacamos al personaje de la lista de favoritos en función del valor del switch
   void hacerFavoritoSwitch() {
     String urlAInsertar = widget.URL_OtraPantalla;
     if (Esfavorito == true) {
       //Lo añade a la lista de favoritos
       Listapersonajesfavoritos().meterEnLista(urlAInsertar);
       saveSetting(Esfavorito);
-      //Listapersonajesfavoritos().saveSetting("favoritos",urlAInsertar);
     } else {
       //lo saca de la lista de favoritos
       saveSetting(Esfavorito);
@@ -194,19 +196,23 @@ class _PantallaPersonajeDetalleState extends State<PantallaPersonajeDetalle> {
     return Scaffold(
         appBar: AppBar(
             title: const Text("Datos disponibles del personaje"),
+            //El color de la appbar es igual al fondo de la pantalla, de la pantalla anterior
             backgroundColor: const Color.fromARGB(255, 189, 175, 248)),
         backgroundColor: const Color.fromARGB(255, 84, 86, 180),
         body: Center(
           child: SingleChildScrollView(
               child: Column(children: [
+            //texto con la información(disponible) del personaje
             Text(TextoPers,
                 style: const TextStyle(
                     fontSize: 30, color: Color.fromARGB(255, 224, 164, 34))),
+            //Un texto para que el usuario sepa que hace el switch
             const Text(
               "Añadir a favoritos",
               style: TextStyle(
                   fontSize: 30, color: Color.fromARGB(255, 255, 60, 0)),
             ),
+            //el switch para añadir/sacar a la lista de favoritos
             Switch(
               value: Esfavorito,
               onChanged: (value) => setState(() {

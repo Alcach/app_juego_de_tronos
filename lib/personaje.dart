@@ -1,3 +1,4 @@
+//Datos básicos que debería tener un personaje
 class Personaje {
   final String url;
   final String nombre;

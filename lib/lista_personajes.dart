@@ -17,72 +17,61 @@ class ListaPers extends StatefulWidget {
 
 //clase de lista de personas de la api
 class ListaPersonajes {
-  final List<Personaje> listadelaspersonas;
+  final List<Personaje> Lista;
 
   const ListaPersonajes({
-    required this.listadelaspersonas,
+    required this.Lista,
   });
 
   factory ListaPersonajes.fromJson(List<dynamic> json) {
     List<Personaje> listadopersonas;
     listadopersonas = json.map((i) => Personaje.fromJson(i)).toList();
-    return ListaPersonajes(listadelaspersonas: listadopersonas);
+    return ListaPersonajes(Lista: listadopersonas);
   }
 }
 
 class _ListaPersState extends State<ListaPers> {
+  //el scrollcontroller es lo que hace que podamos subir y bajar en la pantalla
   final ScrollController _scrollController = ScrollController();
   var Personajes = <String>[];
   var PersonajesURL = <String>[];
-  String TextoPers = "";
-  //variable para buclar
-  //int i = 1;
+
   int numpagina = 1;
   @override
   //num personajes total api 2134
   //El numero de paginas maximo es 43
   void initState() {
-    /*
-    do {
-      crearPers(i);
-    } while (Personajes.length <= 5);
-*/
-
     crearPers();
-
     super.initState();
   }
 
+//cada vez que se muestra la lista, la vacio para que lo ponga en distintas paginas y no uno detrás de otro
   void VaciarLista() {
     Personajes.removeRange(0, Personajes.length);
     PersonajesURL.removeRange(0, PersonajesURL.length);
   }
 
-  //ahora mismo no hace nada, solo el print
   void crearPers() {
-    //late int numeropers;
-    late ListaPersonajes superlista;
+    late ListaPersonajes listaPers;
     late Personaje pers;
     void UsarApi() async {
+      //Usando la documentación de la api, hacemos que la url nos vaya mostrando personajes de 50 en 50
       final url = Uri.parse(
           "https://www.anapioficeandfire.com/api/characters?page=$numpagina&pageSize=50");
       final response = await http.get(url);
       if (response.statusCode == 200) {
         final json = response.body;
-        superlista = ListaPersonajes.fromJson(jsonDecode(json));
-        /*
-        if (kDebugMode) {
-          print(json);
-          print(superlista.listadelaspersonas);
-        }
-        */
+        //Igualamos nuestra lista al json de 50 personajes
+        listaPers = ListaPersonajes.fromJson(jsonDecode(json));
       }
-      //el bucle for enseña correctamente los datos
-      for (pers in superlista.listadelaspersonas) {
+      //Hacemos un bucle para que vaya personaje por personaje
+      for (pers in listaPers.Lista) {
         if (kDebugMode) {
+          //este es un print para ver en consola los personajes
           //el 1 es para ver cuantos van sin nombre
           print("${pers.nombre}1");
         }
+        //si el personaje tiene nombre lo añadimos a las listas
         if (pers.nombre.isNotEmpty) {
           Personajes.add(pers.nombre);
           PersonajesURL.add(pers.url);
@@ -94,20 +83,22 @@ class _ListaPersState extends State<ListaPers> {
     UsarApi();
   }
 
-  void hacerFavorito() {
-//https://www.youtube.com/watch?v=FgJnLdq_Ybo
+//nos lleva a la lista de favoritos
+  void MostrarFavoritos() {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
       return const ListaPersFavoritos();
     }));
   }
 
+//ir a la ultima pagina
   void Ultima() {
     VaciarLista();
     numpagina = 43;
     crearPers();
   }
 
+//ir a la siguiente pagina
   void AvanzarPag() {
     VaciarLista();
     if (numpagina <= 42) {
@@ -116,12 +107,14 @@ class _ListaPersState extends State<ListaPers> {
     }
   }
 
+//ir a la primera pagina
   void Primera() {
     VaciarLista();
     numpagina = 1;
     crearPers();
   }
 
+//ir a la anterior pagina
   void RetrocederPag() {
     VaciarLista();
     if (numpagina >= 2) {
@@ -130,11 +123,11 @@ class _ListaPersState extends State<ListaPers> {
     }
   }
 
+//coge la url del personaje de la lista y lo envía a la pantalla del personaje en detalle
   void MostrarPersonajeDetalle(String url) {
     if (kDebugMode) {
-      //La url del personaje al que se le haga click es correcta
+      //un print para revisar que sea la url correcta
       print("$url");
-      //URL_OtraPantalla: url
     }
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
@@ -148,15 +141,16 @@ class _ListaPersState extends State<ListaPers> {
       backgroundColor: const Color.fromARGB(255, 189, 175, 248),
       appBar: AppBar(
           title: const Text("Lista de personajes"),
+          //usamos el fondo de la primera pantalla como el fondo del título
           backgroundColor: const Color.fromARGB(255, 130, 183, 209)),
       body: Column(children: [
-        Text(TextoPers,
-            style: const TextStyle(fontSize: 30, color: Colors.deepOrange)),
+        //un botón con texto para vel la lista de favoritos
         TextButton(
-            onPressed: hacerFavorito, child: const Text("Ver Lista favoritos")),
+            onPressed: MostrarFavoritos,
+            child: const Text("Ver Lista favoritos")),
+        //Una lista de botones con texto, que muestran los nombres en orden alfabético y que al pulsarlos te llevarán a la pantalla del personaje en detalle
         Expanded(
             child: ListView.builder(
-          //Buscar como meter scrollview
           controller: _scrollController,
           scrollDirection: Axis.vertical,
           itemCount: Personajes.length,
@@ -171,6 +165,7 @@ class _ListaPersState extends State<ListaPers> {
                     child: Text(Personajes[index])));
           },
         )),
+        //Botones debajo de la lista que te permiten moverte entre páginas
         Row(mainAxisSize: MainAxisSize.min, children: [
           TextButton(onPressed: Primera, child: const Text("Ir a la primera")),
           TextButton(onPressed: RetrocederPag, child: const Text("Anterior")),

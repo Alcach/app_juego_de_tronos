@@ -15,7 +15,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -58,19 +57,25 @@ class EstadoInicio extends State<PaginaPrincipal> {
   }
 
   void UsarApi() async {
+    //creamos un numero aleatorio
     crearNumRand();
+    //hacemos que la url busque al personaje con el numero proporcionado
     final url =
         Uri.parse("https://anapioficeandfire.com/api/characters/$numeropers");
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final json = response.body;
+      //transformamos el json del personaje sacado de la api en un objeto "Personaje"
       Personaje pers = Personaje.fromJson(jsonDecode(json));
-      //si el personaje sacado no tiene nombre
+      //si el personaje sacado no tiene nombre, repetimos la función
       if (pers.nombre.isEmpty) {
         UsarApi();
       }
+      //mostramos en pantalla el nombre y género
       TextoPers = "${pers.nombre} \n ${pers.genero}";
-    } else {
+    }
+    //si la api da error en la búsqueda
+    else {
       TextoPers = "Error al Api";
     }
     setState(() {}); // Actualiza la Interfaz de Usuario
@@ -79,45 +84,17 @@ class EstadoInicio extends State<PaginaPrincipal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        //color de fondo para esta pantalla de la aplicación
         backgroundColor: const Color.fromARGB(255, 130, 183, 209),
         body: Center(
           child: Column(children: [
+            //Un texto para poner el nombre y género en la pantalla
             Text(TextoPers,
                 style: const TextStyle(fontSize: 30, color: Colors.deepOrange)),
+            //Un botón con texto que te lleva a la lista
             TextButton(
                 onPressed: AbrirLista, child: const Text("Lista de Personajes"))
           ]),
         ));
   }
-  /*
-  TextoPers.isEmpty
-              ? const CircularProgressIndicator()
-              :
-  */
-/*
-  @override
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Texto de ejemplo:',
-            ),
-            Text(
-              '',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-*/
 }

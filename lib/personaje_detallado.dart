@@ -1,5 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
-
+//clase con TODOS los posibles datos que puede tener un personaje
 class PersonajeDet {
   final String url;
   final String nombre;
