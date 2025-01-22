@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_string_interpolations, prefer_adjacent_string_concatenation, non_constant_identifier_names
+
 import 'dart:convert';
 import 'package:app_juego_de_tronos/ListaPersonajesFavoritos.dart';
 import 'package:app_juego_de_tronos/personaje_detallado.dart';
@@ -6,12 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-//https://medium.com/flutter-community/parsing-complex-json-in-flutter-747c46655f51
-
 // ignore: must_be_immutable
 class PantallaPersonajeDetalle extends StatefulWidget {
   String URL_OtraPantalla;
-  PantallaPersonajeDetalle(this.URL_OtraPantalla);
+  PantallaPersonajeDetalle(this.URL_OtraPantalla, {super.key});
   //const PantallaPersonajeDetalle({super.key, required this.URL_OtraPantalla});
 
   @override
@@ -192,28 +192,29 @@ class _PantallaPersonajeDetalleState extends State<PantallaPersonajeDetalle> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text("Datos disponibles del personaje"),
-          backgroundColor: const Color.fromARGB(255, 98, 160, 155)),
-      backgroundColor: const Color.fromARGB(255, 130, 86, 167),
-      body: SingleChildScrollView(
-          child: Column(children: [
-        Text(TextoPers,
-            style: const TextStyle(
-                fontSize: 30, color: Color.fromARGB(255, 110, 66, 53))),
-        Text(
-          "Añadir a favoritos",
-          style:
-              TextStyle(fontSize: 30, color: Color.fromARGB(255, 221, 64, 16)),
-        ),
-        Switch(
-          value: Esfavorito,
-          onChanged: (value) => setState(() {
-            Esfavorito = value;
-            hacerFavoritoSwitch();
-          }),
-        )
-      ])),
-    );
+        appBar: AppBar(
+            title: const Text("Datos disponibles del personaje"),
+            backgroundColor: const Color.fromARGB(255, 189, 175, 248)),
+        backgroundColor: const Color.fromARGB(255, 84, 86, 180),
+        body: Center(
+          child: SingleChildScrollView(
+              child: Column(children: [
+            Text(TextoPers,
+                style: const TextStyle(
+                    fontSize: 30, color: Color.fromARGB(255, 224, 164, 34))),
+            const Text(
+              "Añadir a favoritos",
+              style: TextStyle(
+                  fontSize: 30, color: Color.fromARGB(255, 255, 60, 0)),
+            ),
+            Switch(
+              value: Esfavorito,
+              onChanged: (value) => setState(() {
+                Esfavorito = value;
+                hacerFavoritoSwitch();
+              }),
+            )
+          ])),
+        ));
   }
 }

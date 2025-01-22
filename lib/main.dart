@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 import 'dart:math';
 
@@ -65,7 +67,7 @@ class EstadoInicio extends State<PaginaPrincipal> {
       Personaje pers = Personaje.fromJson(jsonDecode(json));
       //si el personaje sacado no tiene nombre
       if (pers.nombre.isEmpty) {
-        crearNumRand();
+        UsarApi();
       }
       TextoPers = "${pers.nombre} \n ${pers.genero}";
     } else {
@@ -77,14 +79,15 @@ class EstadoInicio extends State<PaginaPrincipal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 144, 183, 202),
-      body: Column(children: [
-        Text(TextoPers,
-            style: const TextStyle(fontSize: 30, color: Colors.deepOrange)),
-        TextButton(
-            onPressed: AbrirLista, child: const Text("Lista de Personajes"))
-      ]),
-    );
+        backgroundColor: const Color.fromARGB(255, 130, 183, 209),
+        body: Center(
+          child: Column(children: [
+            Text(TextoPers,
+                style: const TextStyle(fontSize: 30, color: Colors.deepOrange)),
+            TextButton(
+                onPressed: AbrirLista, child: const Text("Lista de Personajes"))
+          ]),
+        ));
   }
   /*
   TextoPers.isEmpty

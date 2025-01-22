@@ -1,9 +1,9 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/foundation.dart';
-import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-//https://stackoverflow.com/questions/60470918/data-persistence-how-to-persist-list-of-data
 class Listapersonajesfavoritos {
   var urls = <String>[];
 
@@ -13,13 +13,13 @@ class Listapersonajesfavoritos {
       urls = prefs.getStringList('favoritos')!;
       urls.add(urlAMeter);
       if (kDebugMode) {
-        print("La lista(a la que se ha añadido datos) es: " + urls.toString());
+        print("La lista(después de que se ha añadido datos) es: $urls");
       }
       saveSetting(urls);
     } else {
       urls.add(urlAMeter);
       if (kDebugMode) {
-        print("La lista(a la que se ha añadido datos) es: " + urls.toString());
+        print("La lista(después de que se ha añadido datos) es: $urls");
       }
       saveSetting(urls);
     }
@@ -31,13 +31,13 @@ class Listapersonajesfavoritos {
       urls = prefs.getStringList('favoritos')!;
       urls.removeWhere((test) => test == urlASacar);
       if (kDebugMode) {
-        print("La lista(a la que se han quitado datos) es: " + urls.toString());
+        print("La lista(después de que se han quitado datos) es: $urls");
       }
       saveSetting(urls);
     } else {
       urls.removeWhere((test) => test == urlASacar);
       if (kDebugMode) {
-        print("La lista(a la que se han quitado datos) es: " + urls.toString());
+        print("La lista(después de que se han quitado datos) es: $urls");
       }
       saveSetting(urls);
     }
@@ -47,7 +47,8 @@ class Listapersonajesfavoritos {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('favoritos', listaFav);
     if (kDebugMode) {
-      print(prefs.getStringList('favoritos').toString());
+      print(
+          "Las shared preferences contienen: ${prefs.getStringList('favoritos')}");
     }
   }
 }

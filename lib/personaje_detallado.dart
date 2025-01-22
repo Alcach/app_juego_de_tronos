@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 class PersonajeDet {
   final String url;
   final String nombre;
@@ -49,7 +51,7 @@ class PersonajeDet {
     List<String> listaTv = SeriesTl.cast<String>();
     var Actores = json['playedBy'];
     List<String> listaActores = Actores.cast<String>();
-    return new PersonajeDet(
+    return PersonajeDet(
         url: json['url'],
         nombre: json['name'],
         genero: json['gender'],

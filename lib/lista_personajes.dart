@@ -1,5 +1,6 @@
+// ignore_for_file: non_constant_identifier_names, unnecessary_string_interpolations
+
 import 'dart:convert';
-import 'package:app_juego_de_tronos/ListaPersonajesFavoritos.dart';
 import 'package:app_juego_de_tronos/pantalla_personaje_detalle.dart';
 import 'package:app_juego_de_tronos/pantallalistafavoritos.dart';
 import 'package:app_juego_de_tronos/personaje.dart';
@@ -97,7 +98,7 @@ class _ListaPersState extends State<ListaPers> {
 //https://www.youtube.com/watch?v=FgJnLdq_Ybo
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
-      return new ListaPersFavoritos();
+      return const ListaPersFavoritos();
     }));
   }
 
@@ -137,7 +138,7 @@ class _ListaPersState extends State<ListaPers> {
     }
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
-      return new PantallaPersonajeDetalle(url);
+      return PantallaPersonajeDetalle(url);
     }));
   }
 
@@ -146,8 +147,8 @@ class _ListaPersState extends State<ListaPers> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 189, 175, 248),
       appBar: AppBar(
-          title: Text("Lista de personajes"),
-          backgroundColor: const Color.fromARGB(255, 98, 160, 155)),
+          title: const Text("Lista de personajes"),
+          backgroundColor: const Color.fromARGB(255, 130, 183, 209)),
       body: Column(children: [
         Text(TextoPers,
             style: const TextStyle(fontSize: 30, color: Colors.deepOrange)),

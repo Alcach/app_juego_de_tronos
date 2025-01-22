@@ -1,5 +1,6 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
-import 'package:app_juego_de_tronos/ListaPersonajesFavoritos.dart';
 import 'package:app_juego_de_tronos/pantalla_personaje_detalle.dart';
 import 'package:app_juego_de_tronos/personaje.dart';
 import 'package:flutter/foundation.dart';
@@ -52,7 +53,6 @@ class _ListaPersFavoritosState extends State<ListaPersFavoritos> {
   //ahora mismo no hace nada, solo el print
   void crearPers() {
     //late int numeropers;
-    late ListaPersonajesFavor superlista;
     late Personaje pers;
     void UsarApi() async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -91,12 +91,12 @@ class _ListaPersFavoritosState extends State<ListaPersFavoritos> {
   void MostrarPersonajeDetalle(String url) {
     if (kDebugMode) {
       //La url del personaje al que se le haga click es correcta
-      print("$url");
+      print(url);
       //URL_OtraPantalla: url
     }
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
-      return new PantallaPersonajeDetalle(url);
+      return PantallaPersonajeDetalle(url);
     }));
   }
 
@@ -105,8 +105,8 @@ class _ListaPersFavoritosState extends State<ListaPersFavoritos> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 189, 175, 248),
       appBar: AppBar(
-          title: Text("Lista de personajes Favoritos"),
-          backgroundColor: const Color.fromARGB(255, 98, 160, 155)),
+          title: const Text("Lista de personajes Favoritos"),
+          backgroundColor: const Color.fromARGB(255, 130, 183, 209)),
       body: Column(children: [
         Text(TextoPers,
             style: const TextStyle(fontSize: 30, color: Colors.deepOrange)),
