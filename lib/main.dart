@@ -84,17 +84,28 @@ class EstadoInicio extends State<PaginaPrincipal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        //color de fondo para esta pantalla de la aplicación
-        backgroundColor: const Color.fromARGB(255, 130, 183, 209),
-        body: Center(
-          child: Column(children: [
-            //Un texto para poner el nombre y género en la pantalla
-            Text(TextoPers,
-                style: const TextStyle(fontSize: 30, color: Colors.deepOrange)),
-            //Un botón con texto que te lleva a la lista
-            TextButton(
-                onPressed: AbrirLista, child: const Text("Lista de Personajes"))
-          ]),
-        ));
+      //color de fondo para esta pantalla de la aplicación
+      backgroundColor: const Color.fromARGB(255, 130, 183, 209),
+      body: Center(
+        child: Column(children: [
+          //Un texto para poner el nombre y género en la pantalla
+          Text(TextoPers,
+              style: const TextStyle(fontSize: 30, color: Colors.deepOrange)),
+          //Un botón con texto que te lleva a la lista
+          TextButton(
+              onPressed: AbrirLista, child: const Text("Lista de Personajes"))
+        ]),
+      ),
+    );
   }
 }
+/*
+Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("https://m.media-amazon.com/images/M/MV5BMTNhMDJmNmYtNDQ5OS00ODdlLWE0ZDAtZTgyYTIwNDY3OTU3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+*/

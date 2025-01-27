@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'package:app_juego_de_tronos/ListaPersonajesFavoritos.dart';
-import 'package:app_juego_de_tronos/personaje_detallado.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -51,116 +50,54 @@ class _PantallaPersonajeDetalleState extends State<PantallaPersonajeDetalle> {
 
   String TextoPers = "";
 
-  late PersonajeDet persDet;
-
   void UsarApi() async {
-//usamos el url de la lista de personajes
+    //declaramos una función que dando el nombre("genero") y valor("Male") haga el texto
+    String hazmetxtfunc(String text, dynamic valor) {
+      if (valor.isNotEmpty) {
+        return "$text: $valor\n";
+      } else {
+        return "";
+      }
+    }
+
+    //creamos un map para traducir los nombres de los datos
+    Map<String, dynamic> nombresDat = {
+      "name": "Nombre",
+      "gender": "Género",
+      "culture": "Cultura",
+      "born": "Nacimiento",
+      "died": "Muerte",
+      "titles": "Títulos",
+      "aliases": "Motes",
+      "father": "Padre",
+      "mother": "Madre",
+      "spouse": "Cónyuge",
+      "allegiances": "Alianzas",
+      "books": "Libros",
+      "povBooks": "Pov books",
+      "tvSeries": "Series tv",
+      "playedBy": "Actor/es"
+    };
+    //usamos el url de la lista de personajes
     final url = Uri.parse(widget.URL_OtraPantalla);
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final json = response.body;
-      persDet = PersonajeDet.fromJson(jsonDecode(json));
-//Vamos añadiendo valores al texto en función de si tienen esos valores o no
+      //le asignamos los datos del json a un map
+      Map<String, dynamic> DatosPers = jsonDecode(json);
+      //declaramos una función que mostrará los datos en la pantalla
       void CrearTxt() {
-        if (persDet.genero.isNotEmpty) {
-          TextoPers += "\nGénero: ${persDet.genero}";
-        }
-        if (persDet.cultura.isNotEmpty) {
-          TextoPers += "\nCultura: ${persDet.cultura}";
-        }
-        if (persDet.nacimiento.isNotEmpty) {
-          TextoPers += "\nNacimiento: ${persDet.nacimiento}";
-        }
-        if (persDet.muerte.isNotEmpty) {
-          TextoPers += "\nMuerte: ${persDet.muerte}";
-        }
-        if (persDet.titulos.isNotEmpty) {
-          TextoPers += "\nTítulos: ${persDet.titulos}";
-        }
-        if (persDet.motes.isNotEmpty) {
-          TextoPers += "\nMotes: ${persDet.motes}";
-        }
-        if (persDet.padre.isNotEmpty) {
-          TextoPers += "\nPadre: ${persDet.padre}";
-        }
-        if (persDet.madre.isNotEmpty) {
-          TextoPers += "\nMadre: ${persDet.madre}";
-        }
-        if (persDet.conyuge.isNotEmpty) {
-          TextoPers += "\nCónyuge: ${persDet.conyuge}";
-        }
-        if (persDet.alianzas.isNotEmpty) {
-          TextoPers += "\nAlianzas: ${persDet.alianzas}";
-        }
-        if (persDet.libros.isNotEmpty) {
-          TextoPers += "\nLibros: ${persDet.libros}";
-        }
-        if (persDet.povbooks.isNotEmpty) {
-          TextoPers += "\nPov books: ${persDet.povbooks}";
-        }
-        if (persDet.seriestl.isNotEmpty) {
-          TextoPers += "\nAparición en series: ${persDet.seriestl}";
-        }
-        if (persDet.actor.isNotEmpty) {
-          TextoPers += "\nActor/es: ${persDet.actor}";
-        }
+        //por cada valor en los datos del personaje
+        DatosPers.forEach((clave, valor) {
+          final traduccion = nombresDat[clave];
+          //mirará que no sea nulo y que tenga traducción(así no mostramos la url)
+          if (traduccion != null) {
+            //Se añade al texto con los datos
+            TextoPers += hazmetxtfunc(traduccion, valor);
+          }
+        });
       }
-      //funcion que dando el nombre("genero") y valor("Male") haga el texto
 
-      //intentar crear un diccionario
-      /*
-      //plantilla
-      {
-        "url": "https://anapioficeandfire.com/api/characters/583",
-        "name": "Jon Snow",
-        "gender": "Male",
-        "culture": "Northmen",
-        "born": "In 283 AC",
-        "died": "",
-        "titles": [
-          "Lord Commander of the Night's Watch"
-        ],
-        "aliases": [
-          "Lord Snow",
-          "Ned Stark's Bastard",
-          "The Snow of Winterfell",
-          "The Crow-Come-Over",
-          "The 998th Lord Commander of the Night's Watch",
-          "The Bastard of Winterfell",
-          "The Black Bastard of the Wall",
-          "Lord Crow"
-        ],
-        "father": "",
-        "mother": "",
-        "spouse": "",
-        "allegiances": [
-          "https://anapioficeandfire.com/api/houses/362"
-        ],
-        "books": [
-          "https://anapioficeandfire.com/api/books/5"
-        ],
-        "povBooks": [
-          "https://anapioficeandfire.com/api/books/1",
-          "https://anapioficeandfire.com/api/books/2",
-          "https://anapioficeandfire.com/api/books/3",
-          "https://anapioficeandfire.com/api/books/8"
-        ],
-        "tvSeries": [
-          "Season 1",
-          "Season 2",
-          "Season 3",
-          "Season 4",
-          "Season 5",
-          "Season 6"
-        ],
-        "playedBy": [
-          "Kit Harington"
-        ]
-      }
-      */
-      //El nombre no hace falta revisar si esta vacío porque eso ya lo ha hecho el filtro de la pantalla de lista de personajes
-      TextoPers = "Nombre: " + "${persDet.nombre}";
-      //revisamos valores
       CrearTxt();
     } else {
       TextoPers = "Error al Api";
@@ -203,9 +140,12 @@ class _PantallaPersonajeDetalleState extends State<PantallaPersonajeDetalle> {
           child: SingleChildScrollView(
               child: Column(children: [
             //texto con la información(disponible) del personaje
-            Text(TextoPers,
-                style: const TextStyle(
-                    fontSize: 30, color: Color.fromARGB(255, 224, 164, 34))),
+            Text(
+              TextoPers,
+              style: const TextStyle(
+                  fontSize: 30, color: Color.fromARGB(255, 224, 164, 34)),
+              textAlign: TextAlign.center,
+            ),
             //Un texto para que el usuario sepa que hace el switch
             const Text(
               "Añadir a favoritos",

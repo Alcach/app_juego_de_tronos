@@ -42,7 +42,7 @@ class Listapersonajesfavoritos {
       //Metemos todos los valores de sharedpreferences en la lista
       urls = prefs.getStringList('favoritos')!;
       //Buscamos el url "x" en la lista y lo sacamos
-      urls.removeWhere((Url) => Url == urlASacar);
+      urls.removeWhere((url) => url == urlASacar);
       if (kDebugMode) {
         print("La lista(después de que se han quitado datos) es: $urls");
       }
@@ -52,7 +52,7 @@ class Listapersonajesfavoritos {
     //Si no hay datos en sharedpreferences
     else {
       //Buscamos el url "x" en la lista y lo sacamos
-      urls.removeWhere((Url) => Url == urlASacar);
+      urls.removeWhere((url) => url == urlASacar);
       if (kDebugMode) {
         print("La lista(después de que se han quitado datos) es: $urls");
       }
