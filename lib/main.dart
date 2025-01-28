@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 import 'dart:math';
-
+import 'package:app_juego_de_tronos/pantalla_personaje_detalle.dart';
 import 'package:app_juego_de_tronos/lista_personajes.dart';
 import 'package:app_juego_de_tronos/personaje.dart';
 import 'package:flutter/material.dart';
@@ -71,14 +71,22 @@ class EstadoInicio extends State<PaginaPrincipal> {
       if (pers.nombre.isEmpty) {
         UsarApi();
       }
-      //mostramos en pantalla el nombre y género
-      TextoPers = "${pers.nombre} \n ${pers.genero}";
+      //mostramos en pantalla el nombre
+      TextoPers = pers.nombre;
     }
     //si la api da error en la búsqueda
     else {
       TextoPers = "Error al Api";
     }
     setState(() {}); // Actualiza la Interfaz de Usuario
+  }
+
+  //coge la url del personaje de la lista y lo envía a la pantalla del personaje en detalle
+  void MostrarPersonajeDetalle(String url) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      return PantallaPersonajeDetalle(url);
+    }));
   }
 
   @override
@@ -89,17 +97,28 @@ class EstadoInicio extends State<PaginaPrincipal> {
       body: Center(
         child: Column(children: [
           //Un texto para poner el nombre y género en la pantalla
-          Text(TextoPers,
-              style: const TextStyle(fontSize: 30, color: Colors.deepOrange)),
+          TextButton(
+              onPressed: () {
+                MostrarPersonajeDetalle(
+                    "https://anapioficeandfire.com/api/characters/$numeropers");
+              },
+              child: Text(TextoPers)),
           //Un botón con texto que te lleva a la lista
           TextButton(
-              onPressed: AbrirLista, child: const Text("Lista de Personajes"))
+              onPressed: AbrirLista, child: const Text("Lista de Personajes")),
+          Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            Image.network(
+                'https://pics.filmaffinity.com/game_of_thrones-293142110-mmed.jpg'),
+          ])
         ]),
       ),
     );
   }
 }
 /*
+
+          new Image.network(
+              'https://www.xtrafondos.com/wallpapers/vertical/sakuna-de-jujutsu-kaisen-6718.jpg'),
 Container(
         decoration: BoxDecoration(
           image: DecorationImage(
