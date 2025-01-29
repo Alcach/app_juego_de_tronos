@@ -106,6 +106,7 @@ class EstadoInicio extends State<PaginaPrincipal> {
           //Un botón con texto que te lleva a la lista
           TextButton(
               onPressed: AbrirLista, child: const Text("Lista de Personajes")),
+          //Poner esto en el terminal para mostrar la imagen: flutter run -d chrome --web-renderer html
           Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             Image.network(
                 'https://pics.filmaffinity.com/game_of_thrones-293142110-mmed.jpg'),
